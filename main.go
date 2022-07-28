@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 	// "strings"
 	// "golang.org/x/text/cases"
 	// "math/rand"
@@ -230,16 +231,175 @@ import (
 // }
 
 // parameter pointer
+// func main() {
+// 	var number = 4
+// 	fmt.Println("before : ", number)
 
-func main() {
-	var number = 4
-	fmt.Println("before : ", number)
+// 	change(&number, 10)
 
-	change(&number, 10)
+// 	fmt.Println("after : ", number)
+// }
 
-	fmt.Println("after : ", number)
+// func change(original *int, value int) {
+// 	*original = value
+// }
+
+// struct
+type student struct {
+	grade int
+	person
+	age int
 }
 
-func change(original *int, value int) {
+type person struct {
+	name string
+	age  int
+}
 
+// func main() {
+// 	var s1 student
+// 	s1.name = "grinder wald"
+// 	s1.grade = 2
+
+// 	var s2 = student{"wise kid", 3}
+// 	var s3 = student{name: "harry dend"}
+// 	var s4 = student{grade: 3, name: "tony will"}
+// 	// fmt.Println("Student Name : ", s1.name)
+// 	// fmt.Println("Student Grade : ", s1.grade)
+// 	fmt.Println("Student Name 1 : ", s1.name)
+// 	fmt.Println("Student Name 2 : ", s2.name)
+// 	fmt.Println("Student Name 3 : ", s3.name)
+// 	fmt.Println("Student Name 4 : ", s4.name)
+// }
+
+// struct object pointer
+// func main() {
+// 	var s1 = student{name: "john", grade: 1}
+// 	var s2 *student = &s1
+
+// 	fmt.Println("name student 1 :", s1.name)
+// 	fmt.Println("name student 4 :", s2.name)
+
+// 	s2.name = "wick"
+// 	fmt.Println("name student 1 :", s1.name)
+// 	fmt.Println("name student 4 :", s2.name)
+// }
+
+// embedded struct
+// func main() {
+// var s1 = student{}
+// s1.name = "john"
+// s1.age = 12
+// s1.person.age = 15
+// s1.grade = 2
+
+// fmt.Println("name : ", s1.person.name)
+// fmt.Println("age : ", s1.person.age)
+// fmt.Println("age : ", s1.age)
+// fmt.Println("age : ", s1.grade)
+
+// var s2 = struct {
+// 	person
+// 	grade int
+// }{}
+
+// s2.person = person{name: "thed", age: 44}
+// s2.grade = 1
+
+// fmt.Println("name : ", s2.person.name)
+// fmt.Println("age : ", s2.person.age)
+// fmt.Println("grade : ", s2.grade)
+
+// var allStudents = []person{
+// 	{name: "Wise", age: 19},
+// 	{name: "Zedd", age: 21},
+// 	{name: "Drek", age: 22},
+// 	{name: "Pablo", age: 20},
+// }
+
+// for _, student := range allStudents {
+// 	fmt.Println("Name : ", student.name)
+// 	fmt.Println("Age : ", student.age)
+// }
+
+// // anonymous struct
+// var lecturer = struct {
+// 	name string
+// 	age  int
+// }{
+// 	"Escobar",
+// 	40,
+// }
+
+// fmt.Println("Lecturer Name : ", lecturer.name)
+// fmt.Println("Lecturer Age : ", lecturer.age)
+
+// nested struct
+// var data = employee{}
+// data.division = "Tech"
+// data.hobbies = []string{
+// 	"basket",
+// 	"sport",
+// 	"code",
+// 	"gaming",
+// }
+// data.person.name = "Ricard"
+// data.person.age = 23
+
+// fmt.Println("Name : ", data.person.name)
+// fmt.Println("Division : ", data.division)
+// for _, hobby := range data.hobbies {
+// 	fmt.Println("Hobbies : ", hobby)
+// }
+
+// }
+
+// nested struct
+// type employee struct {
+// 	person struct {
+// 		name string
+// 		age  int
+// 	}
+// 	division string
+// 	hobbies  []string
+// }
+type employee struct {
+	person struct {
+		name string
+		age  int
+	}
+	division string
+}
+
+func (e employee) say(message string) {
+	fmt.Println(message, e.person.name)
+}
+
+func (e employee) getNameAt(i int) string {
+	return strings.Split(e.person.name, " ")[i-1]
+}
+
+func (e employee) changeName1(name string) {
+	fmt.Println("-> on changeName1, name changed to : ", name)
+	e.person.name = name
+}
+
+func (e *employee) changeName2(name string) {
+	fmt.Println("-> on changeName2, name changes to : ", name)
+	e.person.name = name
+}
+
+func main() {
+	var people = employee{person: person{name: "Brath Wild", age: 48}, division: "Kitchen"}
+
+	people.say("Halo my name is")
+	var name = people.getNameAt(2)
+	fmt.Println("You can call me", name)
+
+	fmt.Println("Name before change : ", people.person.name)
+	people.changeName1("Brandon Whelter")
+	fmt.Println("Name after changeName1", people.person.name)
+
+	people.changeName2("Karlt Philip")
+	fmt.Println("Name after changeName3", people.person.name)
 }
